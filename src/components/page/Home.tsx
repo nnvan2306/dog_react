@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import api from "../../libs/axios";
 import { setDogs } from "../../store/dogSlice";
@@ -45,14 +45,23 @@ const Home = () => {
 
     const fetchDogs = async (page: number = 1) => {
         setLoading(true);
-        console.log("run");
         try {
             const res = await api.get<ResponseType<DogType>>(
                 `/breeds?page[number]=${page}`
             );
+            if (res?.data?.meta?.pagination) {
+                const paginationData = res?.data?.meta?.pagination;
 
+                setPagination({
+                    current: paginationData?.current || pagination.current,
+                    first: paginationData?.first || pagination.first,
+                    prev: paginationData?.prev || pagination.prev,
+                    next: paginationData?.next || pagination.next,
+                    last: paginationData?.last || pagination.last,
+                    records: paginationData?.records || pagination.records,
+                });
+            }
             dispatch(setDogs(res.data.data));
-            setPagination(res.data.meta.pagination);
         } catch (error) {
             console.error("Failed to fetch dogs:", error);
         } finally {
@@ -64,12 +73,16 @@ const Home = () => {
         fetchDogs(1);
     }, []);
 
-    const handlePageChange = (page: number) => {
-        if (page >= 1 && page <= pagination.last) {
-            fetchDogs(page);
-            window.scrollTo({ top: 0, behavior: "smooth" });
-        }
-    };
+    const handlePageChange = useCallback(
+        (page: number) => {
+            console.log("Changing to page:", page, pagination);
+            if (page >= 1 && page <= pagination.last) {
+                fetchDogs(page);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+        },
+        [pagination.last]
+    );
 
     const renderPageNumbers = () => {
         const pages = [];
