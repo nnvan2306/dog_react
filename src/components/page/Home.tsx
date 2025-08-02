@@ -206,12 +206,11 @@ const Home = () => {
                                                               <i className="bi bi-check-circle me-1"></i>
                                                               Hypoallergenic
                                                           </>
-                                                      ) : (
-                                                          <>
-                                                              <i className="bi bi-x-circle me-1"></i>
-                                                              Regular
-                                                          </>
-                                                      )}
+                                                      ) : //   <>
+                                                      //       <i className="bi bi-x-circle me-1"></i>
+                                                      //       Regular
+                                                      //   </>
+                                                      null}
                                                   </span>
                                               </div>
                                           </div>
