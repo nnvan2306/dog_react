@@ -28,20 +28,6 @@ const Home = () => {
         records: 0,
     });
     const [loading, setLoading] = useState(false);
-    console.log("pagination:", pagination);
-    useEffect(() => {
-        const link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.href =
-            "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css";
-        document.head.appendChild(link);
-
-        return () => {
-            if (document.head.contains(link)) {
-                document.head.removeChild(link);
-            }
-        };
-    }, []);
 
     const fetchDogs = async (page: number = 1) => {
         setLoading(true);
