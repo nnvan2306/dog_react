@@ -35,7 +35,7 @@ const Home = () => {
         setLoading(true);
         try {
             const res = await api.get<ResponseType<DogType>>(
-                `/breedssd?page[number]=${page}`
+                `/breeds?page[number]=${page}`
             );
             if (res?.data?.meta?.pagination) {
                 const p = res.data.meta.pagination;
