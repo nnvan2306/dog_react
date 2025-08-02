@@ -7,19 +7,19 @@ import type { RootState } from "../../store/store";
 import type { DogType } from "../../types/dog";
 import type { ResponseType } from "../../types";
 
-interface PaginationMeta {
+type PaginationMetaType = {
     current: number;
     first: number;
     prev: number | null;
     next: number | null;
     last: number;
     records: number;
-}
+};
 
 const Home = () => {
     const dispatch = useDispatch();
     const dogs = useSelector((state: RootState) => state.dog.dogs);
-    const [pagination, setPagination] = useState<PaginationMeta>({
+    const [pagination, setPagination] = useState<PaginationMetaType>({
         current: 1,
         first: 1,
         prev: null,
@@ -89,7 +89,6 @@ const Home = () => {
         const current = pagination.current;
         const last = pagination.last;
 
-        // Always show first page
         if (current > 3) {
             pages.push(1);
             if (current > 4) {
@@ -97,7 +96,6 @@ const Home = () => {
             }
         }
 
-        // Show pages around current page
         for (
             let i = Math.max(1, current - 2);
             i <= Math.min(last, current + 2);
@@ -106,7 +104,6 @@ const Home = () => {
             pages.push(i);
         }
 
-        // Always show last page
         if (current < last - 2) {
             if (current < last - 3) {
                 pages.push("...");
@@ -119,7 +116,6 @@ const Home = () => {
 
     return (
         <div className="min-vh-100" style={{ backgroundColor: "#f8f9fa" }}>
-            {/* Hero Section */}
             <div
                 className="bg-gradient-primary text-white py-5 mb-5"
                 style={{
@@ -180,7 +176,6 @@ const Home = () => {
                     </div>
                 ) : (
                     <>
-                        {/* Dog Cards Grid */}
                         <div className="row g-4 mb-5">
                             {dogs.map((dog: DogType) => (
                                 <div className="col-lg-4 col-md-6" key={dog.id}>
@@ -203,7 +198,6 @@ const Home = () => {
                                                 "0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)";
                                         }}
                                     >
-                                        {/* Card Header */}
                                         <div className="card-header border-0 bg-white pb-2">
                                             <div className="d-flex justify-content-between align-items-start">
                                                 <h5 className="card-title mb-0 text-primary fw-bold">
@@ -234,7 +228,6 @@ const Home = () => {
                                             </div>
                                         </div>
 
-                                        {/* Card Body */}
                                         <div className="card-body pt-0">
                                             <p
                                                 className="text-muted mb-4"
@@ -249,7 +242,6 @@ const Home = () => {
                                                 {dog.attributes.description}
                                             </p>
 
-                                            {/* Stats Cards */}
                                             <div className="row g-2 mb-3">
                                                 <div className="col-6">
                                                     <div className="bg-light rounded p-3 text-center">
@@ -283,7 +275,6 @@ const Home = () => {
                                                 </div>
                                             </div>
 
-                                            {/* Weight Information */}
                                             <div className="bg-primary bg-opacity-10 rounded p-3">
                                                 <h6 className="text-primary mb-2">
                                                     <i className="bi bi-speedometer2 me-2"></i>
@@ -350,7 +341,6 @@ const Home = () => {
                             ))}
                         </div>
 
-                        {/* Enhanced Pagination */}
                         <div className="row justify-content-center">
                             <div className="col-12">
                                 <div className="card border-0 shadow-sm">
